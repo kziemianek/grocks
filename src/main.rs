@@ -1,4 +1,4 @@
-use rocksdb::DB;
+use rocksdb::{WriteOptions, DB};
 use tokio::runtime::Handle;
 use std::sync::Arc;
 use jsonrpsee::server::{RpcModule, Server};
@@ -21,7 +21,9 @@ pub async fn main() {
 	let server = Server::builder().build("0.0.0.0:2000".parse::<SocketAddr>().unwrap()).await.unwrap();
 	let mut module = RpcModule::new(());
 	module.register_method("say_hello", move |_, _, _| {
-        cloned_db.put(key, value);
+        let mut opts = WriteOptions::new();
+        opts.set_sync(true);
+        cloned_db.put_opt(key, value, &opts);
     }).unwrap();
 
 
