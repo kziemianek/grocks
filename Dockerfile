@@ -17,7 +17,8 @@ RUN apt-get install -y \
     build-essential \
     curl \
     libssl-dev \
-    pkg-config
+    pkg-config \
+    clang
 
 # Get Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
@@ -46,7 +47,8 @@ RUN apt-get install -y \
     build-essential \
     curl \
     libssl-dev \
-    ca-certificates
+    ca-certificates \ 
+    clang
 
 COPY --from=build /usr/src/grocks/target/release/grocks /usr/src/grocks/target/release/grocks
 COPY --from=build /usr/src/grocks/grocks.sig /usr/src/grocks/grocks.sig
